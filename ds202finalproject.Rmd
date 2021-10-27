@@ -4,7 +4,6 @@ author: "Rachel Grober"
 date: "10/26/2021"
 output: html_document
 ---
-<<<<<<< HEAD
 # Who is on the project team?
 
 The people in our project team are Gabe Love and Rachel Grober
@@ -25,54 +24,19 @@ We are using data from the U.S. Census Data for Social, Economic, and Health Res
 
 We plan to heavily use ggplots to visualize relationships between key variables. In addition, we hope to do statistical analysis to help us break down the numbers of each of our questions. Here are some questions we are looking to answer with our data:
 
-What variables affect income in the US?
-How does race impact income?
-How does birthplace impact income?
-How is birthplace related to race?
-How does migration status impact income?
-How does city population relate to family size?
-How does occupation impact income?
-How does industry of occupation impact income?
-How does income impact family size?
-How does occupation impact family size?
-How does state impact income?
-How does birthplace impact race?
-How are these variables correlated?
-What anomalies are present in the data?
-How odes race influence various relationships?
-How is city population distributed by state?
-=======
-#Who is on the project team?
-```{r}
-#The people in our project team are Gabe Love and Rachel Grober
-```
-
-#Link to the data resource we will be using
-```{r}
-
-```
-
-#Overview of the dataset
-```{r}
-#We are using data from the U.S. Census Data for Social, Economic, and Health Research. In our data, we have included the variables of year, migration status, state, city population, family size, race, years in the United States, occupation, birthplace, total family income, and industry to analyze.
-```
-
-#Our plan for exploratory analysis, including what questions we will be answering
-```{r}
-#We plan to heavily use ggplots to visualize relationships between key variables. In addition, we hope to do statistical analysis to help us break down the numbers of each of our questions. Here are some questions we are looking to answer with our data:
-
-#What variables affect income in the US?
-#How does race impact income?
-#How does birthplace impact income?
-#How is birthplace related to race?
-#How does migration status impact income?
-#How does city population relate to family size?
-#How does occupation impact income?
-#How does industry of occupation impact income?
-#How does income impact family size?
-#How does occupation impact family size?
-#How does state impact income?
-#How does birthplace impact race?
-#How are these variables correlated?
-```
->>>>>>> be6825a7315f6700e836fc66060e3e5d408724c3
+What variables affect income in the US?   
+How does race impact income?  
+How does birthplace impact income?  
+How is birthplace related to race?  
+How does migration status impact income?  
+How does city population relate to family size?  
+How does occupation impact income?  
+How does industry of occupation impact income?  
+How does income impact family size?  
+How does occupation impact family size?  
+How does state impact income?  
+How does birthplace impact race?  
+How are these variables correlated?  
+What anomalies are present in the data?  
+How odes race influence various relationships?  
+How is city population distributed by state?  
