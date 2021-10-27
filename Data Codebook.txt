@@ -1,0 +1,18 @@
+Census Data from 2009 - 2019
+
+YEAR - Census Year
+STATEICP - State Code
+CITYPOP - City Population
+FAMSIZE - Number of Family Members in Household
+RACE - Race (general)
+RACED - Race (detailed)
+BPL - Birthplace
+BPLD - Birthplace (detailed)
+YRSUSA1 - Years in the US
+OCC - Occupation
+IND - Industry
+FTOTINC - Total Family Income
+MIGRATE1 - Migration Status, 1 year (general)
+MIGRATE1D - Migration Status, 1 year (detailed)
+
+Dataset - https://usa.ipums.org/usa-action/data_requests/download
