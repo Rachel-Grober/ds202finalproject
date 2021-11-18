@@ -2,7 +2,7 @@ Census Data from 2009 - 2019
 
 YEAR - Census Year
 STATEICP - State Code
-CITYPOP - City Population
+CITYPOP - City Population in hundreds
 FAMSIZE - Number of Family Members in Household
 RACE - Race (general)
 RACED - Race (detailed)
