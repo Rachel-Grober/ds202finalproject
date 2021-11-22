@@ -2,9 +2,10 @@ library(tidyverse)
 library(ggcorrplot)
 library(rvest)
 
-df <- read.csv("../usa_00002.csv")
-
-unique(df$STATEICP)
+df <- read.csv("Final Project Folder DS202/usa_00002.csv")
+statesdf <- read.csv("Final Project Folder DS202/usa_00004.csv")
+statesdf <- unique(statesdf) %>% select(STATEICP, STATEFIP)
+df <- left_join(df, statesdf, by = "STATEICP")
 
 #Web Scrape this
 #https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696
@@ -16,7 +17,11 @@ url <- "https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696"
 html <- read_html(url)
 tables <- html_table(html)
 str(tables)
-tables[18]
+stateCodes <- data.frame(tables[19])
+statesClean <- stateCodes %>% slice(-c(1,2)) %>% select(X1, X2, X3)
+colnames(statesClean) <- statesClean[1,]
+statesClean <- statesClean %>% slice(-1)
+statesClean$FIPS <- as.integer(statesClean$FIPS)
 
 
 #===================================================How does race impact income?======================================================================
@@ -35,10 +40,64 @@ df2 <- df2 %>% select(Race, Income)
 ggplot(df2, aes(reorder(Race,-Income), Income, fill = Race)) + geom_bar(stat = "identity") + theme(axis.text.x = element_blank()) + 
   xlab("Race") + ylab("Income") + labs(title = "Median Income by Race")
 
-#=====================================================================Income===========================================================================
+#=====================================================================State===========================================================================
 
-incomeDF <- df %>% select()
+incomeDF <- df %>% group_by(STATEFIP) %>% summarise(Income = median(FTOTINC)) %>% left_join(statesClean, by = c("STATEFIP" = "FIPS")) %>% 
+  select(Name, Income) %>% drop_na()
+
+ggplot(incomeDF, aes(reorder(Name, -Income), Income, fill = Name)) + geom_bar(stat = "identity") + 
+  theme(axis.text.x = element_text(angle = 90, size = 15), legend.position = "none") + xlab("State") + ylab("Income") + 
+  labs(title = "Median Income by State")
 
 
+#=========================================================================Birthplace===================================================================
+
+birthDF <- df %>% group_by(BPL) %>% summarise(Income = median(FTOTINC)) %>% arrange(Income)
+top5 <- birthDF %>% slice_head(n = 5) %>% mutate(Group = "Bottom 5")
+bottom5 <- birthDF %>% slice_tail(n = 5) %>% mutate(Group = "Top 5")
+bplDF <- rbind(top5, bottom5)
+
+#Manually gathered from data codebook
+birthplaceName <- data.frame(c(544, 950, 200, 110, 210, 700, 516, 521,413,543),
+                             c("North Yemen Arab Republic", "Other", "Mexico", "Puerto Rico", "Central America / Carribean", 
+                               "Australia / New Zealand", "Singapore", "India", "United Kingdom", "United Arab Emirates"))
+colnames(birthplaceName) <- c("Code", "Name")
+
+bplDF <- left_join(bplDF, birthplaceName, by = c("BPL" = "Code")) 
 
 
+ggplot(bplDF, aes(x = reorder(Group, -Income), Income, fill = reorder(Name, -Income))) + geom_bar(position = "dodge", stat = "identity") + 
+  xlab("Grouping") + ylab("Median Income") + labs(title = "Median Income by Birthplace", fill = "Birthplace")
+
+#=====================================================================Migration Status=================================================================
+
+migrationDF <- df %>% group_by(MIGRATE1) %>% summarize(Income = median(FTOTINC))
+
+statusCodes <- data.frame(c(1, 2, 3, 4, 9), 
+                          c("Same House", "Moved Within State", "Moved States", "Abroad", "Unknown"))
+colnames(statusCodes) <- c("Code", "MigrationStatus")
+
+migrationDF <- migrationDF %>% filter(MIGRATE1 != 0) %>% left_join(statusCodes, by = c("MIGRATE1" = "Code"))
+
+ggplot(migrationDF, aes(10, reorder(MigrationStatus, Income), size = Income, color = MigrationStatus)) + geom_point() + scale_size(range = c(18,38)) + 
+  xlab(element_blank()) + ylab(element_blank()) + labs(title = "Income by Migration Status") + 
+  theme(legend.position = "none", axis.title.x = element_blank(), axis.ticks= element_blank(), axis.text = element_blank(), 
+        panel.background = element_blank()) + geom_text(aes(label = MigrationStatus, color = "white"), size = 6, nudge_y = .25) + 
+  geom_text(aes(label = Income, color = "purple"), size = 6) + scale_color_manual(values = 
+                                                                                    c("green", "purple", "pink", "black", "red", "black", "black"))
+
+#=================================================================Industry==========================================================================
+
+industryNames <- read.csv("Final Project Folder DS202/2017-industry-code-list.csv")
+occupationDF <- df %>% group_by(IND) %>% summarise(Income = median(FTOTINC)) %>% arrange(Income)
+occTop5 <- occupationDF %>% slice_head(n = 5) %>% mutate(Group = "Bottom 5")
+occBottom5 <- occupationDF %>% slice_tail(n = 5) %>% mutate(Group = "Top 5")
+occDF <- rbind(occTop5, occBottom5) %>% left_join(industryNames, by = c("OCC" = "X.2"))
+
+
+  
+  
+  
+  
+  
+  
