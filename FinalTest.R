@@ -1,6 +1,7 @@
 library(tidyverse)
 library(ggcorrplot)
 library(rvest)
+library(plotly)
 
 df <- read.csv("Final Project Folder DS202/usa_00002.csv")
 statesdf <- read.csv("Final Project Folder DS202/usa_00004.csv")
@@ -86,18 +87,26 @@ ggplot(migrationDF, aes(10, reorder(MigrationStatus, Income), size = Income, col
   geom_text(aes(label = Income, color = "purple"), size = 6) + scale_color_manual(values = 
                                                                                     c("green", "purple", "pink", "black", "red", "black", "black"))
 
-#=================================================================Industry==========================================================================
+#========================================================================City=========================================================================
 
-industryNames <- read.csv("Final Project Folder DS202/2017-industry-code-list.csv")
-occupationDF <- df %>% group_by(IND) %>% summarise(Income = median(FTOTINC)) %>% arrange(Income)
-occTop5 <- occupationDF %>% slice_head(n = 5) %>% mutate(Group = "Bottom 5")
-occBottom5 <- occupationDF %>% slice_tail(n = 5) %>% mutate(Group = "Top 5")
-occDF <- rbind(occTop5, occBottom5) %>% left_join(industryNames, by = c("OCC" = "X.2"))
+citypopDF <- df %>% select(CITYPOP, FTOTINC) %>% group_by(CITYPOP) %>% summarise(Income = median(FTOTINC)) %>% 
+  mutate(`log(City Population)` = log(CITYPOP))
+p <- ggplot(citypopDF, aes(`log(City Population)`, Income)) + geom_point() + labs(title = "Income by log(City Population)") + 
+  geom_smooth(method = 'lm')
+ggplotly(p)
 
+#=======================================================================Famsize========================================================================
 
-  
-  
-  
-  
+famsizeDF <- df %>% select(FAMSIZE, FTOTINC) %>% group_by(FAMSIZE) %>% summarise(Income = median(FTOTINC), count = n())
+ggplot(famsizeDF, aes(FAMSIZE, Income)) + geom_line() + labs(title = "Income by Family Size") + theme(axis.title.x = element_text("Family Size")) + 
+  geom_smooth(method = 'lm')
+
+famsizeDF
+
+#====================================================================Correlation Matrix================================================================
+
+correlationDF <- df <- read.csv("Final Project Folder DS202/usa_00005.csv")
+correlation <- cor(correlationDF)
+
   
   
