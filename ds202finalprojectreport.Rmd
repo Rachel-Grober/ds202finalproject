@@ -1,0 +1,148 @@
+---
+title: "DS 202 Final Project Report"
+author: "Rachel Grober and Gabe Love"
+date: "11/30/2021"
+output: html_document
+---
+# Introduction
+
+Income is an important aspect in each of our lives. The amount of money we make influences every one of our experiences, including our hobbies, family sizes, living situations, and more. As a result, it is crucial to understand what factors positively impact income, as well as the disparities that negatively impact income.
+
+To gain a better understanding of the topic of income and the factors that influence it, we looked to the Integrated Public Use Microdata Series (IPUMS) to retrieve census and survey data so that we could conduct investigative research regarding this complex topic. Since there were hundreds of variables we could source from the database, we first wanted to brainstorm key questions that we wanted to find answers for. After some critical thinking, we came up with the following questions that we wanted to address:
+
+* How does race impact income?
+* How does state impact income?
+* How does birthplace impact income?
+* How does migration status impact income?
+* How does occupation impact income?
+* How does the industry of occupation impact income?
+* How are each of these variables correlated?
+* What anomalies are present within the data?
+
+From these key questions, we then identified the variables that were important to our analysis and sourced them from the database. The key data parameters we found most important were as follows:
+
+* YEAR - Census Year
+* STATEICP - State Code
+* CITYPOP - City Population in Hundreds
+* FAMSIZE - Number of Family Members in Household
+* RACE - Race (General)
+* RACED - Race (Detailed)
+* BPL - Birthplace
+* BPLD - Birthplace (Detailed)
+* YRSUSA1 - Years in the US
+* OCC - Occupation
+* IND - Industry
+* FTOTINC - Total Family Income
+* MIGRATE1 - Migration Status, 1 Year (General)
+* MIGRATE1D - Migration Status, 1 Year (Detailed)
+
+### 1. How does race impact income?
+
+To begin our analysis, we looked to answer our first question, ‘How does race impact income?’. This was a question of great curiosity to our team, especially as there has been increased controversy on how different races have been treated in the workplace the past several years. To conduct our analysis we generated a barplot using the two variables that included general race and total family income. Initiatially, we had calculated the average total family income; however, our results were extremely skewed by outliers in the dataset. As a result, we chose to rework the analysis by calculating the median household family income by race, which yielded more reliable results. This information can be found in figure 1, titled ‘Median Income by Race’.
+
+Figure 1
+
+![Median Income by Race](image1.png)
+
+From this figure, we can identify that the race earning the highest income on average in the United States is Chinese. We were also able to identify that the race earning the lowest income on average was Black/African American/Negro. In addition, we can see there is a large range in the average incomes earned by race, which does indicate some discrimination in the workplace.
+
+### 2. How does state impact income?
+
+The next question we looked into uncovering was our second question regarding how state impacts income. This question was a little more challenging to uncover, as we did not have the correct state names corresponding to the FPIS code in our original dataset. To combat this, we used web scraping to help us obtain this information from the USDA’s Natural Resources and Conservation website (https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696) and then used the left_join function to pull our original dataset, as well as the information we had just sourced from the internet together. From there, we then elected to continue using median as a way to track income earned to generate information that was not skewed by outliers. As a result, we utilized the variables name and total family income to generate the following barplot (figure 2) named ‘Median Income by State’:
+
+Figure 2
+
+![Median Income by State](image2.png)
+
+From this graph, we can see states listed from highest to lowest median family income earned. The highest states are New Jersey, Maryland, and Connecticut, while the lowest earning states are Mississippi, Arkansas, and West Virginia, respectively. 
+
+
+### 3. How does birthplace by country impact income?
+
+In order to better understand the reasoning behind why immigrants from certain nations choose to move to the United States, we then looked to address how birthplace impacts the income of someone in the United States. Within the U.S. job market, employers are valuing diversity of thoughts and experiences more than ever before to help drive their companies forward. As a result, we created a hypothesis that people from different countries would earn a higher income than people from central America. 
+
+Originally, in our dataset, each birthplace was given a number. For example, Mexico was represented by ‘200’ in our dataset. As a result, in order to generate a visual that would be easy for a reader who had not before seen or worked with our dataset, we had to dive into the codebook and correspond each of the names of the birthplaces with the number it was assigned to in order to best represent our final data.
+
+When dissecting the data to help answer our question, we were able to recognize that there were 188 potential birthplaces that data on income were collected on. This was an abundance of information that we felt was not important, nor necessary to share with a consumer looking to understand the information we were presenting. As a result, we chose to narrow our focus down to the top five and bottom five median incomes based on birthplaces. 
+
+The top five income categories by birthplace are as follows:
+
+1. United Arab Emirates
+2. United Kingdom
+3. India
+4. Singapore
+5. Australia/New Zealand
+
+The bottom five income categories by birthplace are as follows:
+
+1. Central America/Caribbean
+2. Puerto Rico
+3. Mexico
+4. North Yemen Arab Republic
+5. Other
+
+This information can be further visualized in figure 3, entitled ‘Median Income by Birthplace’.
+
+Figure 3
+
+![Median Income by Birthplace](image5.png)
+
+### 4. How does migration status impact income
+
+In this dataset, migration status represents whether or not a person has stayed at the same residence. There are four distinct categories an individual can fall into when it comes to this variable. They are as follows:
+
+* Resident is the same house as the previous year
+* Resident has moved states during the previous year
+* Resident has moved within the state during the previous year
+* Resident was abroad during the previous year
+
+From what we have learned during our time at college, we know that employers generally appreciate when employees are willing to relocate for their jobs. As a result, we generated a hypothesis that people who had moved within the state, outside of the state, or had been abroad the previous year would earn a higher median income on average than those who remained in the same house.
+
+As we conducted our analysis, we chose to represent this information visually via a bubble chart. This can be visualized in figure 4 titled ‘Income by Migration Status’. 
+
+Figure 4
+
+![Median Income by Migration Status](image7.png)
+
+From our chart, our team was able to recognize that our original hypothesis was incorrect. In fact, you can see that people who remained at the same home as they had been in the previous year or had moved outside of the state were earning a higher median income than those who fell within the other two categories. 
+
+### 5. How does city population impact income?
+
+City population plays a large role in the job opportunities available within a particular area. For example, many companies, such as Google, choose to place their corporate headquarters in areas where they can source a plethora of educated talent. In addition, the cost of living in these areas tends to be higher. As a result, our team initially created the hypothesis that the larger the city population, the higher the median income would be. We chose to further search into this by representing our data via a plotly scatterplot. The results of this can be further identified in figure 5 titled ‘Income by log(City Population)’. 
+
+Figure 5
+
+![Median Income by Race](image8.png)
+
+We can conclude from our analysis that while there is a large range in incomes earned, especially in smaller cities, the general trend for income earned across cities of all populations is roughly the same. As a result, our team would recommend living in a smaller city, as you would generally earn the same income, but have a lower cost of living. 
+
+### 6. How does the family size impact income?
+
+Our team wanted to answer our sixth question regarding the impacts of family size and income by generating a line chart. We felt this would be a strategic way to showcase any significant differences that occur in terms of income earned by family size. Prior to running the analysis, our team hypothesized that the larger the family size, the more income that family would earn. This is mainly because there could be more contributors to the overall earnings. In addition, we recognized that having a larger family ultimately costs more money. As a result, we concluded that people who had larger families would need to earn more money to support them.
+
+We were able to visualize the amount of income earned by family size in figure 6, titled ‘Income by Family Size’.
+
+Figure 6
+
+![Median Income by Race](image6.png)
+
+One can see from this analysis that there is a general positive correlation between income and family size. However, family sizes of 17 made significantly less than families of any other size. We wanted to ensure that we had a reasonable sample size of 17 person families to gain that data. As a result, we calculated the total number of families in each size category and dound that there wer 629 families with the size of 17.
+
+While there are significantly less families with 17 members than there are in any other category (besides those with 18 members), we concluded that there was still a large enough sample size to accurately represent the income earned.
+
+### 8. What anomalies are present within the data?
+
+As our team conducted our analysis, we wanted to keep our eyes open for any anomalies that we saw present in the dataset. An anomaly is something different than what is normally expected. 
+
+The most surprising anomaly our team identified occurred when we were answering the question of how family size impacts income. As hypothesized, we saw a positive trend between the two variables; however, families with a size of 17 earned significantly less income than any other family size. To help explain this, we further ensured that the sample size was adequate to make assumptions from. Since it was big enough, we have identified this as an anomaly within our data.
+
+### Conclusion
+
+As our team looked to further understand the variables impacting income, we overcame many challenges that helped us expand our knowledge on how to troubleshoot R and manipulate data to be usable across the software. We were able to utilize tools such as ggplot, plotly, web scraping, joining data frames, and more to help us complete our analysis of income.
+
+From our interactions with this dataset, we are confident in the result we shared throughout this report and are pleased with our abilities to apply what we have learned throughout the semester to understand and manipulate real-world datasets. Both members of our team are excited to use the skills we have learned and apply them to our future careers. 
+
+
+### Contribution Statement
+
+The work regarding this project was distributed both fairly and equitably. Both team members feel that the analysis challenged them and helped them grow their data wrangling and visualization skills. Throughout the process, both team members worked side-by-side on the coding, presentation, and project report writing to ensure they each understood what was going into each section of the project, as well as how we could create a thorough and appropriate analysis of the questions we were asking. As a result, the team chose to forgo the ‘divide and conquer’ approach to ensure they understood all aspects of the project. 
