@@ -8,10 +8,9 @@ statesdf <- read.csv("Final Project Folder DS202/usa_00004.csv")
 statesdf <- unique(statesdf) %>% select(STATEICP, STATEFIP)
 df <- left_join(df, statesdf, by = "STATEICP")
 
-#Web Scrape this
+#Web Scraped this
 #https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696
 
-colnames(df)
 #=========================================================Web Scraping===============================================================================
 
 url <- "https://www.nrcs.usda.gov/wps/portal/nrcs/detail/?cid=nrcs143_013696"
